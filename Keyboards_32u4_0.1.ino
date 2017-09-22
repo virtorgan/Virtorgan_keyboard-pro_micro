@@ -48,7 +48,7 @@ unsigned long previousMillis = 0 ;
 /**********************************************************************
 **   FUNCTIONS
 **********************************************************************/
-inline void readKeys(void){
+inline void readKeys(void) __attribute__((always_inline)) {
 
 }
 
