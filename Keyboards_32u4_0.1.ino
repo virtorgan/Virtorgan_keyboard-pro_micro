@@ -46,6 +46,7 @@
 uint8_t previousKeys[8] = {255,255,255,255,255,255,255,255};
 uint8_t inputImage[8] = {0};
 uint8_t diffKey = 0 ;
+uint8_t channel = 0 ;
 elapsedMillis sinceLoop;
 
 
