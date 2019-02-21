@@ -71,7 +71,7 @@ inline void sendKeys() {
         if (diffKey) { // if at least one key changed
             for (uint8_t j = 0 ; j < 8 ; j++){
                 if ((diffKey>>j) & 0b00000001){ // if that particular key changed
-          	        usbMIDI.sendNoteOn(((i * 8) + j + PREMIERE_NOTE) , (~(inputImage[i]>>j) & 0b00000001) * VELOCITE_DEFAULT , channel); 
+          	        usbMIDI.sendNoteOn(((i * 8) + j + PREMIERE_NOTE) , ((inputImage[i]>>j) & 0b00000001) * VELOCITE_DEFAULT , channel); 
                     /*Serial.print("sendNoteOn ");
                     Serial.print(((i * 8) + j + PREMIERE_NOTE));
                     Serial.print(" ");
