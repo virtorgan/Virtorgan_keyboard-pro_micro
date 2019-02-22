@@ -35,7 +35,7 @@
 /**********************************************************************
 **   PRIVATE CONSTANTS
 **********************************************************************/
-#define PREMIERE_NOTE 36U /// most left note of keyboard = C3 = Do 3eme Octave
+#define PREMIERE_NOTE 36U /// most left note of keyboard = C2 = Do 2eme Octave
 #define VELOCITE_DEFAULT 64U /// default velocity of keypressed
 #define SCAN_PERIOD 1U ///scan every mS
 #define WAIT_TIME 100U
