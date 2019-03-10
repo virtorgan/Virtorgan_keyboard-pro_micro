@@ -267,6 +267,10 @@ void loop(void) {
 		eighthRow();
 		sendKeys(); /// check and send MIDI messages
 		usbMIDI.send_now(); /// flush USB buffer 
+		// MIDI Controllers should discard incoming MIDI messages.
+		while (usbMIDI.read()) {
+		// read & ignore incoming messages
+		}
 	}
 }
 

@@ -9,6 +9,7 @@
 **   Documentation :
 **   input is PD1, PD0, PD4, PC6, PD7, PE6, PB4, PB5 (bit 0..7)
 **   output is PB6,PB2,PB3,PB1,PF7,PF6,PF5,PF4 (bit 0..7) but we use only the 4 first !
+**   2 expression pedals on A0 and A1
 **
 **   usbMIDI to send messages. See website to read messages https://www.pjrc.com/teensy/td_midi.html
 **   usbMIDI.sendNoteOn(note, velocity, channel)
@@ -39,6 +40,7 @@
 #define VELOCITE_DEFAULT 64U /// default velocity of keypressed
 #define SCAN_PERIOD 1U ///scan every mS
 #define WAIT_TIME 100U
+#define ANALOG_SCAN_PERIOD 250U ///scan Expression pedals 4 times per second
 
 /**********************************************************************
 **   GLOBAL VARIABLES
@@ -46,9 +48,11 @@
 uint8_t previousKeys[8] = {0};
 uint8_t inputImage[8] = {0};
 uint8_t diffKey = 0 ;
-uint8_t channel = 1 ;
+uint8_t channel = 0 ;
+uint8_t prev_analog1 = 0;
+uint8_t prev_analog2 = 0;
 elapsedMillis sinceLoop;
-
+elapsedMillis sinceAnalog;
 
 /**********************************************************************
 **   FUNCTIONS
@@ -222,6 +226,19 @@ inline void eighthRow() {
   DDRF &= ~(1<<4);///Input
   PORTF |= 1<<4; /// Pullup
 }
+
+inline void readAnalog() {
+  uint8_t analog1 = analogRead(A0)>>3;
+  uint8_t analog2 = analogRead(A1)>>3;
+  if ((analog1) != (prev_analog1)) {
+    usbMIDI.sendControlChange(01, analog1, channel)
+	prev_analog1 = analog1;
+  }
+  if ((analog2) != (prev_analog2)) {
+    usbMIDI.sendControlChange(07, analog2 , channel)
+	prev_analog2 = analog2;
+  }
+}
 /**********************************************************************
 **   SETUP - INITIALIZATION
 **********************************************************************/
@@ -271,7 +288,17 @@ void loop(void) {
 */
 		sendKeys(); /// check and send MIDI messages
 		usbMIDI.send_now(); /// flush USB buffer 
+		// MIDI Controllers should discard incoming MIDI messages.
+		while (usbMIDI.read()) {
+		// read & ignore incoming messages
+		}
 	}
+  if (sinceAnalog >= ANALOG_SCAN_PERIOD) {
+    sinceAnalog = 0;
+    readAnalog();
+  } 
+  
+  }
 }
 
 //EOF
