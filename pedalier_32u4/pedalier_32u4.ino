@@ -51,6 +51,7 @@ uint8_t diffKey = 0 ;
 uint8_t channel = 0 ;
 uint8_t prev_analog1 = 0;
 uint8_t prev_analog2 = 0;
+uint8_t prev_analog3 = 0;
 elapsedMillis sinceLoop;
 elapsedMillis sinceAnalog;
 
