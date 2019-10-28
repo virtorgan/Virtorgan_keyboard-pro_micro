@@ -9,7 +9,7 @@
 **   Documentation :
 **   input is PD1, PD0, PD4, PC6, PD7, PE6, PB4, PB5 (bit 0..7)
 **   output is PB6,PB2,PB3,PB1,PF7,PF6,PF5,PF4 (bit 0..7) but we use only the 4 first !
-**   2 expression pedals on A0 and A1
+**   3 expression pedals on A0, A1 and A2
 **
 **   usbMIDI to send messages. See website to read messages https://www.pjrc.com/teensy/td_midi.html
 **   usbMIDI.sendNoteOn(note, velocity, channel)
@@ -230,13 +230,18 @@ inline void eighthRow() {
 inline void readAnalog() {
   uint8_t analog1 = analogRead(A0)>>3;
   uint8_t analog2 = analogRead(A1)>>3;
+  uint8_t analog3 = analogRead(A2)>>3;
   if ((analog1) != (prev_analog1)) {
-    usbMIDI.sendControlChange(01, analog1, channel)
+    usbMIDI.sendControlChange(11, analog1, channel)
 	prev_analog1 = analog1;
   }
   if ((analog2) != (prev_analog2)) {
     usbMIDI.sendControlChange(07, analog2 , channel)
 	prev_analog2 = analog2;
+  }
+  if ((analog3) != (prev_analog3)) {
+    usbMIDI.sendControlChange(01, analog3 , channel)
+	prev_analog3 = analog3;
   }
 }
 /**********************************************************************
