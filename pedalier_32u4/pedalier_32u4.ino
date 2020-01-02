@@ -233,15 +233,15 @@ inline void readAnalog() {
   uint8_t analog2 = analogRead(A1)>>3;
   uint8_t analog3 = analogRead(A2)>>3;
   if ((analog1) != (prev_analog1)) {
-    usbMIDI.sendControlChange(11, analog1, channel)
+    usbMIDI.sendControlChange(11, analog1, channel);
 	prev_analog1 = analog1;
   }
   if ((analog2) != (prev_analog2)) {
-    usbMIDI.sendControlChange(07, analog2 , channel)
+    usbMIDI.sendControlChange(07, analog2 , channel);
 	prev_analog2 = analog2;
   }
   if ((analog3) != (prev_analog3)) {
-    usbMIDI.sendControlChange(01, analog3 , channel)
+    usbMIDI.sendControlChange(01, analog3 , channel);
 	prev_analog3 = analog3;
   }
 }
@@ -304,7 +304,6 @@ void loop(void) {
     readAnalog();
   } 
   
-  }
 }
 
 //EOF
